@@ -1,23 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import Navbar from './components/Navbar';
+import Movielist from './components/Movielist';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+// OMdb API Key = 7b471a32
 
 function App() {
+  
+  const [movies, setMovies] = useState([]);
+
+  const getMovies = async () => {
+    try{
+      const {data} = await axios.get("https://www.omdbapi.com/?apikey=7b471a32&s=Star+Wars&page=1");
+      setMovies(data.Search);
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getMovies();
+  }, []);
+
+  
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Navbar />
       </header>
+      <div className='App-body'>
+        <div>
+          <h1 className='list-header'>Top 10 Star Wars Films:</h1>
+          {console.log('Movies:', movies)}
+          {movies.length > 0 ? <Movielist movies={movies} /> : <div>No Movies!</div>}
+        </div>
+      </div>
     </div>
   );
 }
