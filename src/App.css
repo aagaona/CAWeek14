@@ -45,6 +45,10 @@
   background-color: #1e293b;
 }
 
+.card-body{
+  color: whitesmoke;
+}
+
 .movie-list{
   display: flex;
   flex-direction: row;
